@@ -138,7 +138,7 @@ namespace AQuant
         }
         private void CancelOrder(object state)
         {
-            
+            Console.WriteLine();
         }
 
     }
