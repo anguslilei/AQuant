@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TradeAPI;
 using QuoteAPI;
-using System.Threading.Timer;
+
 namespace AQuant
 {
     public class AContract

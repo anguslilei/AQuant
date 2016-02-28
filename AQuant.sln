@@ -5,6 +5,8 @@ VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AQuant", "AQuant\AQuant.csproj", "{A159F685-FA01-4580-80E0-67CF0D4DF64E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArbitrageSample", "ArbitrageSample\ArbitrageSample.csproj", "{894AD022-A46D-466A-A71D-AD594B88C990}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{A159F685-FA01-4580-80E0-67CF0D4DF64E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A159F685-FA01-4580-80E0-67CF0D4DF64E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A159F685-FA01-4580-80E0-67CF0D4DF64E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{894AD022-A46D-466A-A71D-AD594B88C990}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{894AD022-A46D-466A-A71D-AD594B88C990}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{894AD022-A46D-466A-A71D-AD594B88C990}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{894AD022-A46D-466A-A71D-AD594B88C990}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
