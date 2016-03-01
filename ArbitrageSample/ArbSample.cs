@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Threading;
 using System.Runtime.InteropServices;
-using TradeAPI;
+//using TradeAPI;
 using QuoteAPI;
 using AQuant;
 namespace ArbitrageSample
@@ -42,7 +42,11 @@ namespace ArbitrageSample
         public override void Init()
         {
 
-            Thread.Sleep(5000);
+            //while (!t.IsStarted)
+            //{
+              //  Console.WriteLine("正在启动中");
+                Thread.Sleep(10000);
+//}
             AddContract("IC1603");
             AddContract("IC1604");
             Contracts[0].OnRtnTick += OnTick;
@@ -82,30 +86,30 @@ namespace ArbitrageSample
                     {
 
 
-                        if ((OldSell > MaPrice - PriceDiff) && (OldClose < OldMa - PriceDiff) && !CloseBuy)
+                        if ((OldSell > MaPrice - PriceDiff) && (OldClose < OldMa - PriceDiff) && (!CloseBuy))
                         {
                             this.OpenBuy = true;
                         }
-                        if ((OldBuy < MaPrice + PriceDiff) && (OldClose > OldMa + PriceDiff) && !CloseSell)
+                        if ((OldBuy < MaPrice + PriceDiff) && (OldClose > OldMa + PriceDiff) && (!CloseSell))
                         {
                             this.OpenSell = true;
                         }
 
                         //做多价差
-                        if (this.OpenBuy & !CloseSell)
+                        if (this.OpenBuy && (!CloseSell))
                         {
                             this.OpenBuy = false;
                             Console.WriteLine("做多价差");
-                            this.Contracts[0].Shift = 0;
+                            this.Contracts[0].Shift = 1;
                             this.Contracts[1].Shift = -1;
                             CloseBuy = true;
                         }
                         //做空价差
-                        if (this.OpenSell & !CloseBuy)
+                        if (this.OpenSell && (!CloseBuy))
                         {
                             this.OpenSell = false;
                             Console.WriteLine("做空价差");
-                            this.Contracts[0].Shift = 0;
+                            this.Contracts[0].Shift = 1;
                             this.Contracts[1].Shift = 1;
                             CloseSell = true;
                         }

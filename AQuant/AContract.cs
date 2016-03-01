@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TradeAPI;
 using QuoteAPI;
-
+using System.Threading;
 namespace AQuant
 {
     public class AContract
@@ -80,11 +80,15 @@ namespace AQuant
                         AllowTrade = false;
                         _orderId = InputOrder(DirectionType.Buy, OffsetType.Close, Ticks[0].LastPrice, -_Shift);
                     }
-                    if (_orderId != -1)
+                    if (_orderId ==0)
                     {
                         this._Shift = value;
                     }
 
+                }
+                else
+                {
+                    Console.WriteLine("禁止报单");
                 }
             }
             get
@@ -103,7 +107,7 @@ namespace AQuant
         }
         private void DefOnRtnTrade(object sender, TradeArgs e)
         {
-
+            
         }
 
         private void DefOnRtnOrder(object sender, OrderArgs e)
@@ -111,10 +115,9 @@ namespace AQuant
             Console.WriteLine("收到报单回报:" + e.Value.OrderID + "Status=" + e.Value.Status);
             System.Threading.Timer timer = new System.Threading.Timer(new System.Threading.TimerCallback(CancelOrder), e.Value.OrderID, 3000, System.Threading.Timeout.Infinite);
 
-            if (e.Value.Status == OrderStatus.Normal)
-            {
-                dicOrder[e.Value.OrderID] = e.Value;
-            }
+
+            dicOrder[e.Value.OrderID] = e.Value;
+            
 
             if (dicOrder.ContainsKey(e.Value.OrderID) && (e.Value.Status == OrderStatus.Filled))//全部成交
             {
@@ -125,8 +128,13 @@ namespace AQuant
 
         private void DefOnRtnCancel(object sender, OrderArgs e)
         {
+            
             if (e.Value.Status == OrderStatus.Canceled)//被撤单
             {
+                int orderID = e.Value.OrderID;
+                Console.WriteLine(e.Value.OrderID.ToString() + "3秒未成被撤单,开始重下");
+                InputOrder(dicOrder[orderID].Direction, dicOrder[orderID].Offset, Ticks[0].LastPrice, dicOrder[orderID].VolumeLeft);
+                dicOrder.Remove(e.Value.OrderID);
                 AllowTrade = true;
             }
         }
@@ -138,7 +146,8 @@ namespace AQuant
         }
         private void CancelOrder(object state)
         {
-            Console.WriteLine();
+            int ordId = (int)state;
+            t.ReqOrderAction(ordId);
         }
 
     }

@@ -26,7 +26,7 @@ namespace AQuant
         /// <summary>
         /// 交易
         /// </summary>  
-        private Trade t;           //交易
+        public Trade t;           //交易
         /// <summary>
         /// 合约列表
         /// </summary>
@@ -82,7 +82,13 @@ namespace AQuant
             q.OnRspUserLogin += (sender, e) =>
             {
                 if (e.Value == 0)
+                {
                     Console.WriteLine("行情账户登录成功!");
+                    if (t.TradingAccount != null)
+                    {
+                        Console.WriteLine("可用资金:{0},平仓盈亏:{1},动态权益:{2}", t.TradingAccount.Available, t.TradingAccount.CloseProfit, t.TradingAccount.Fund);
+                    }
+                }
                 else
                     Console.WriteLine("行情账户登录失败{0}!", e.Value);
             };
@@ -98,6 +104,7 @@ namespace AQuant
                 if (e.Value == 0)
                 {
                     Console.WriteLine("交易账户登录成功，即将登录行情...");
+                 //   t.ReqQryAccount();
                     q.ReqConnect();
                 }
                 else
@@ -109,11 +116,12 @@ namespace AQuant
             t.OnRspUserLogout += (sender, e) => Console.WriteLine("OnRspUserLogout:{0}", e.Value);
             t.OnRtnCancel += OnRtnCancel;
             t.OnRtnError += (sender, e) => Console.WriteLine("OnRtnError:{0}=>{1}", e.ErrorID, e.ErrorMsg);
-            // t.OnRtnExchangeStatus += (sender, e) => Console.WriteLine("OnRtnExchangeStatus:{0}=>{1}", e.Exchange, e.Status);
+             t.OnRtnExchangeStatus += (sender, e) => Console.WriteLine("OnRtnExchangeStatus:{0}=>{1}", e.Exchange, e.Status);
             t.OnRtnNotice += (sender, e) => Console.WriteLine("OnRtnNotice:{0}", e.Value);
             t.OnRtnOrder += OnRtnOrder;
             t.OnRtnTrade += OnRtnTrade;
-
+            
+            
 
         }
         /// <summary>
@@ -122,6 +130,7 @@ namespace AQuant
         /// <param name="instrumentID"></param>
         public void AddContract(string instrumentID)
         {
+
             AContract contract = new AContract(this.t);
             try
             {
@@ -138,7 +147,10 @@ namespace AQuant
         /// <summary>
         /// 策略初始化工作，比如添加合约，为合约添加响应等
         /// </summary>
-        public virtual void Init() { }
+        public virtual void Init() 
+        {
+
+        }
         /// <summary>
         /// 订阅行情
         /// </summary>
